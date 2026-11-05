@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useAuth } from "../firebase/AuthContext";
 import { listCases } from "../services/api";
 import { CaseItem } from "../types/models";
@@ -20,10 +20,11 @@ import {
   FileText,
   KeyRound,
 } from "lucide-react";
-
+import "./DashboardPage.css";
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const reduceMotion = useReducedMotion();
   const [requests, setRequests] = useState<CaseItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -98,24 +99,25 @@ export default function DashboardPage() {
   const userGreeting = user?.displayName ? `, ${user.displayName}` : "";
 
   return (
-    <div className="space-y-7 pb-10">
+    <div className="dashboard-page space-y-7 pb-10">
       {/* Editorial Hero Welcome Banner */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="bg-surface-pearl rounded-2xl border border-ink-border/80 p-6 sm:p-9 shadow-sm relative overflow-hidden"
+        className="dashboard-hero-card bg-surface-pearl rounded-2xl border border-ink-border/80 p-6 sm:p-9 shadow-sm relative overflow-hidden"
       >
-        {/* Soft Background Accent */}
-        <div
-          className="absolute -top-24 -right-24 w-96 h-96 bg-brand-sage/30 rounded-full blur-3xl pointer-events-none"
-          aria-hidden="true"
-        />
+        <div className="dashboard-hero-art" aria-hidden="true">
+          <img src="/loginhero.jpeg" alt="" />
+          <span />
+        </div>
+        <div className="dashboard-hero-orbit dashboard-hero-orbit-one" aria-hidden="true" />
+        <div className="dashboard-hero-orbit dashboard-hero-orbit-two" aria-hidden="true" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-          <div className="lg:col-span-8 space-y-4">
+          <div className="dashboard-hero-copy lg:col-span-8 space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-sage/40 border border-brand-border text-brand-forest text-xs font-semibold">
-              <Sparkles className="w-3.5 h-3.5 text-accent-gold" />
+              <Sparkles className="dashboard-sparkle w-3.5 h-3.5 text-accent-gold" />
               <span>Private & Confidential Sanctuary</span>
             </div>
 
@@ -148,9 +150,14 @@ export default function DashboardPage() {
           </div>
 
           {/* Quick Security Snapshot Pill Box */}
-          <div className="lg:col-span-4 bg-[#F8F6F0] rounded-xl p-5 border border-ink-border/70 space-y-3 shadow-2xs">
+          <motion.div
+            className="dashboard-posture lg:col-span-4 bg-[#F8F6F0] rounded-xl p-5 border border-ink-border/70 space-y-3 shadow-2xs"
+            initial={reduceMotion ? false : { opacity: 0, x: 16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.5, delay: 0.14 }}
+          >
             <div className="flex items-center gap-2 text-xs font-bold text-ink-primary font-heading uppercase tracking-wider">
-              <Shield className="w-4 h-4 text-brand-forest" />
+              <Shield className="dashboard-posture-icon w-4 h-4 text-brand-forest" />
               <span>Active Privacy Posture</span>
             </div>
 
@@ -164,18 +171,27 @@ export default function DashboardPage() {
                 <span className="font-semibold text-brand-forest">Enabled</span>
               </div>
               <div className="flex items-center justify-between">
-                <span>Instant Exit</span>
-                <span className="font-mono text-[10px] bg-canvas-sand px-1.5 py-0.5 rounded text-ink-primary">
-                  Esc
-                </span>
+                <span>Privacy settings</span>
+                <Link
+                  to="/settings"
+                  className="font-semibold text-brand-forest hover:underline"
+                >
+                  Review anytime
+                </Link>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </motion.div>
 
       {/* Reassuring Privacy Guarantees */}
-      <div className="p-4 sm:p-5 rounded-xl bg-[#FAF9F5] border border-ink-border/70 flex items-start gap-3.5 text-xs sm:text-sm text-ink-secondary leading-relaxed shadow-2xs">
+      <motion.div
+        className="dashboard-guarantee p-4 sm:p-5 rounded-xl bg-[#FAF9F5] border border-ink-border/70 flex items-start gap-3.5 text-xs sm:text-sm text-ink-secondary leading-relaxed shadow-2xs"
+        initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: reduceMotion ? 0 : 0.4 }}
+      >
         <div className="w-8 h-8 rounded-lg bg-brand-sage/50 text-brand-forest flex items-center justify-center flex-shrink-0 mt-0.5">
           <Lock className="w-4 h-4" />
         </div>
@@ -185,13 +201,20 @@ export default function DashboardPage() {
           </strong>{" "}
           Your uploads are analyzed solely for your own verification report. ShieldHer never exposes, indexes, or shares your media with external commercial aggregators or model trainers.
         </div>
-      </div>
+      </motion.div>
 
       {/* 3 Core Action Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: reduceMotion ? 0 : 0.45 }}
+          whileHover={reduceMotion ? undefined : { y: -5 }}
+        >
         <Link
           to="/verification/consent"
-          className="p-5 rounded-2xl bg-surface-pearl border border-ink-border/80 hover:border-brand-rich/50 hover:shadow-md transition-all group flex flex-col justify-between"
+          className="dashboard-action-card p-5 rounded-2xl bg-surface-pearl border border-ink-border/80 hover:border-brand-rich/50 hover:shadow-md transition-all group flex flex-col justify-between"
         >
           <div>
             <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
@@ -209,10 +232,18 @@ export default function DashboardPage() {
             Start check <ArrowRight className="w-3 h-3" />
           </span>
         </Link>
+        </motion.div>
 
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: reduceMotion ? 0 : 0.45, delay: 0.08 }}
+          whileHover={reduceMotion ? undefined : { y: -5 }}
+        >
         <Link
           to="/help"
-          className="p-5 rounded-2xl bg-surface-pearl border border-ink-border/80 hover:border-brand-rich/50 hover:shadow-md transition-all group flex flex-col justify-between"
+          className="dashboard-action-card dashboard-action-card-cyan p-5 rounded-2xl bg-surface-pearl border border-ink-border/80 hover:border-brand-rich/50 hover:shadow-md transition-all group flex flex-col justify-between"
         >
           <div>
             <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
@@ -230,10 +261,18 @@ export default function DashboardPage() {
             Access helplines <ArrowRight className="w-3 h-3" />
           </span>
         </Link>
+        </motion.div>
 
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: reduceMotion ? 0 : 0.45, delay: 0.16 }}
+          whileHover={reduceMotion ? undefined : { y: -5 }}
+        >
         <Link
           to="/settings"
-          className="p-5 rounded-2xl bg-surface-pearl border border-ink-border/80 hover:border-brand-rich/50 hover:shadow-md transition-all group flex flex-col justify-between"
+          className="dashboard-action-card p-5 rounded-2xl bg-surface-pearl border border-ink-border/80 hover:border-brand-rich/50 hover:shadow-md transition-all group flex flex-col justify-between"
         >
           <div>
             <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
@@ -251,10 +290,17 @@ export default function DashboardPage() {
             Manage privacy <ArrowRight className="w-3 h-3" />
           </span>
         </Link>
+        </motion.div>
       </div>
 
       {/* Recent Requests Section */}
-      <div className="bg-surface-pearl rounded-2xl border border-ink-border/80 shadow-xs overflow-hidden">
+      <motion.div
+        className="dashboard-requests bg-surface-pearl rounded-2xl border border-ink-border/80 shadow-xs overflow-hidden"
+        initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: reduceMotion ? 0 : 0.45 }}
+      >
         <div className="p-5 sm:p-6 border-b border-ink-border/60 flex items-center justify-between gap-4 flex-wrap">
           <div>
             <h3 className="text-base sm:text-lg font-bold text-ink font-heading">
@@ -370,7 +416,7 @@ export default function DashboardPage() {
             </table>
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

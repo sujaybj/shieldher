@@ -2,16 +2,12 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import TopNav from "./TopNav";
-import QuickExitBar from "../common/QuickExitBar";
 
 export const AppLayout: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-canvas flex flex-col selection:bg-teal-100 selection:text-teal-900">
-      {/* Topmost emergency exit bar */}
-      <QuickExitBar />
-
+    <div className="theme-dark min-h-screen bg-canvas flex flex-col selection:bg-teal-100 selection:text-teal-900">
       <div className="flex-1 flex overflow-hidden">
         {/* Responsive Sidebar */}
         <Sidebar

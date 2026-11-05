@@ -60,7 +60,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
       {/* Main Sidebar Drawer */}
       <aside
         className={cn(
-          "fixed top-0 bottom-0 left-0 z-40 w-64 bg-surface-pearl border-r border-ink-border flex flex-col justify-between transition-transform duration-200 ease-in-out md:static md:translate-x-0 md:z-0 shadow-2xs",
+          "workspace-sidebar fixed top-0 bottom-0 left-0 z-40 w-64 bg-surface-pearl border-r border-ink-border flex flex-col justify-between transition-transform duration-200 ease-in-out md:static md:translate-x-0 md:z-0 shadow-2xs",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >

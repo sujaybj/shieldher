@@ -51,7 +51,7 @@ export const TopNav: React.FC<TopNavProps> = ({ onMenuClick }) => {
   const isChecking = location.pathname.startsWith("/verification");
 
   return (
-    <header className="h-16 px-4 sm:px-6 bg-surface-pearl border-b border-ink-border flex items-center justify-between gap-4 sticky top-0 z-30 shadow-2xs">
+    <header className="workspace-topnav h-16 px-4 sm:px-6 bg-surface-pearl border-b border-ink-border flex items-center justify-between gap-4 sticky top-0 z-30 shadow-2xs">
       <div className="flex items-center gap-3">
         {onMenuClick && (
           <button
